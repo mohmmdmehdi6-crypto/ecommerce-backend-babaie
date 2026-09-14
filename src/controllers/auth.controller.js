@@ -73,3 +73,9 @@ export const login = async (req, res) => {
     message: "Login successful",
   });
 };
+export const getProfile = (request, response) => {
+  response.json({
+    user: request.user,
+  });
+};
+

@@ -1,6 +1,6 @@
 import express from "express";
 
-import { login, register } from "../controllers/auth.controller.js";
+import { getProfile, login, register } from "../controllers/auth.controller.js";
 import {
   registerValidation,
   loginValidation,
@@ -19,10 +19,5 @@ authRouter.post(
 
 authRouter.post("/login", loginValidation, validationMiddleware, login);
 
-
-authRouter.get("/profile", authMiddleware, (req, res) => {
-  res.json({
-    user: req.user,
-  });
-});
+authRouter.get("/profile", authMiddleware, getProfile);  
 export { authRouter };
