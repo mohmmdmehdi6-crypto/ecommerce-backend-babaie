@@ -2,22 +2,39 @@ import { prisma } from "../config/prisma.js";
 
 export const getCategories = async (request, response, next) => {
   try {
-    const category = await prisma.category.findMany();
-    response.status(200).json(category);
+    const categories = await prisma.category.findMany({
+      include: {
+        products: true,
+      },
+    });
+
+    response.status(200).json({
+      success: true,
+      data: categories,
+      message: "Categories fetched successfully",
+    });
   } catch (error) {
     next(error);
   }
 };
-
 export const getCategoryById = async (request, response, next) => {
   const { id } = request.params;
+
   try {
     const category = await prisma.category.findUnique({
       where: {
         id,
       },
+      include: {
+        products: true,
+      },
     });
-    response.status(200).json(category);
+
+    response.status(200).json({
+      success: true,
+      data: category,
+      message: "Category fetched successfully",
+    });
   } catch (error) {
     next(error);
   }

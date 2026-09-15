@@ -3,15 +3,22 @@ import express from "express";
 import dotenv from "dotenv";
 import { errorHandler } from "./src/middleware/error.middleware.js";
 import { categoryRouter } from "./src/routes/category.route.js";
+import { productRouter } from "./src/routes/product.route.js";
+
 dotenv.config();
 
 const app = express();
 
 app.use(express.json());
 
+app.use("/files", express.static("uploads"));
+
 const PORT = process.env.PORT || 3000;
+
 app.use("/api/auth", authRouter);
 app.use("/api/categories", categoryRouter);
+app.use("/api/products", productRouter);
+
 app.use(errorHandler);
 
 app.listen(PORT, () => {

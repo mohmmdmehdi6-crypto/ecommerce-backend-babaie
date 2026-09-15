@@ -5,6 +5,7 @@ export const authMiddleware = (request, response, next) => {
 
   if (!authHeader) {
     return response.status(401).json({
+      success: false,
       message: "No token provided",
     });
   }
@@ -19,6 +20,7 @@ export const authMiddleware = (request, response, next) => {
     next();
   } catch (error) {
     return response.status(401).json({
+      success: false,
       message: "Invalid token",
     });
   }

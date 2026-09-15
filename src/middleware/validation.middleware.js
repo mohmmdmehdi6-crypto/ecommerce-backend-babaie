@@ -5,7 +5,9 @@ export const validationMiddleware = (request, response, next) => {
 
   if (!errors.isEmpty()) {
     return response.status(400).json({
+      success: false,
       errors: errors.array(),
+      message: "Validation failed",
     });
   }
 
