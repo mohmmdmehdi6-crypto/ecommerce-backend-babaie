@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { prisma } from "../config/prisma.js";
+import { customError } from "../middleware/error.middleware.js";
 
 export const register = async (request, response, next) => {
   try {
@@ -13,10 +14,7 @@ export const register = async (request, response, next) => {
     });
 
     if (existingUser) {
-      return response.status(400).json({
-        success: false,
-        message: "Email already exists",
-      });
+      customError("Email already exists", 400);
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -42,6 +40,7 @@ export const register = async (request, response, next) => {
     next(error);
   }
 };
+
 export const login = async (request, response, next) => {
   try {
     const { email, password } = request.body;
@@ -53,19 +52,13 @@ export const login = async (request, response, next) => {
     });
 
     if (!user) {
-      return response.status(404).json({
-        success: false,
-        message: "User not found",
-      });
+      customError("User not found", 404);
     }
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
     if (!isPasswordCorrect) {
-      return response.status(401).json({
-        success: false,
-        message: "Invalid email or password",
-      });
+      customError("Invalid email or password", 401);
     }
 
     const token = jwt.sign(
@@ -96,6 +89,7 @@ export const login = async (request, response, next) => {
     next(error);
   }
 };
+
 export const getProfile = (request, response) => {
   response.json({
     user: request.user,

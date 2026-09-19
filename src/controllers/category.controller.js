@@ -1,4 +1,5 @@
 import { prisma } from "../config/prisma.js";
+import { customError } from "../middleware/error.middleware.js";
 
 export const getCategories = async (request, response, next) => {
   try {
@@ -8,15 +9,12 @@ export const getCategories = async (request, response, next) => {
       },
     });
 
-    response.status(200).json({
-      success: true,
-      data: categories,
-      message: "Categories fetched successfully",
-    });
+    response.status(200).json(categories);
   } catch (error) {
     next(error);
   }
 };
+
 export const getCategoryById = async (request, response, next) => {
   const { id } = request.params;
 
@@ -30,11 +28,11 @@ export const getCategoryById = async (request, response, next) => {
       },
     });
 
-    response.status(200).json({
-      success: true,
-      data: category,
-      message: "Category fetched successfully",
-    });
+    if (!category) {
+      customError("Category not found", 404);
+    }
+
+    response.status(200).json(category);
   } catch (error) {
     next(error);
   }
@@ -42,24 +40,24 @@ export const getCategoryById = async (request, response, next) => {
 
 export const createCategory = async (request, response, next) => {
   const { name } = request.body;
+
   try {
     const category = await prisma.category.create({
       data: {
         name,
       },
     });
-    response.status(201).json({
-      success: true,
-      data: category,
-      message: "Category created successfully",
-    });
+
+    response.status(201).json(category);
   } catch (error) {
     next(error);
   }
 };
+
 export const updateCategory = async (request, response, next) => {
   const { id } = request.params;
   const { name } = request.body;
+
   try {
     const category = await prisma.category.update({
       where: {
@@ -69,15 +67,13 @@ export const updateCategory = async (request, response, next) => {
         name,
       },
     });
-    response.status(200).json({
-      success: true,
-      data: category,
-      message: "Category updated successfully",
-    });
+
+    response.status(200).json(category);
   } catch (error) {
     next(error);
   }
 };
+
 export const deleteCategory = async (request, response, next) => {
   const { id } = request.params;
 
@@ -89,10 +85,7 @@ export const deleteCategory = async (request, response, next) => {
     });
 
     if (!category) {
-      return response.status(404).json({
-        success: false,
-        message: "Category not found",
-      });
+      customError("Category not found", 404);
     }
 
     await prisma.category.delete({
@@ -102,8 +95,6 @@ export const deleteCategory = async (request, response, next) => {
     });
 
     response.status(200).json({
-      success: true,
-      data: null,
       message: "Category deleted successfully",
     });
   } catch (error) {
