@@ -5,8 +5,8 @@ import {
   getProductById,
   updateProduct,
 } from "../controllers/product.controller.js";
-import { upload } from "../middleware/upload.middleware.js";
 import { deleteProduct } from "../controllers/product.controller.js";
+import { upload } from "../utils/multer.utils.js";
 
 const productRouter = express.Router();
 
