@@ -1,14 +1,10 @@
 import { validationResult } from "express-validator";
 
-export const validationMiddleware = (request, response, next) => {
-  const errors = validationResult(request);
+export const checkValidation = (request, response, next) => {
+  const err = validationResult(request);
 
-  if (!errors.isEmpty()) {
-    return response.status(400).json({
-      success: false,
-      errors: errors.array(),
-      message: "Validation failed",
-    });
+  if (!err.isEmpty()) {
+    return response.status(422).send(err);
   }
 
   next();

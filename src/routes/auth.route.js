@@ -5,19 +5,15 @@ import {
   registerValidation,
   loginValidation,
 } from "../validators/auth.validator.js";
-import { validationMiddleware } from "../middleware/validation.middleware.js";
-import { authMiddleware } from "../middleware/auth.middleware.js";
+import { checkValidation } from "../middleware/validation.middleware.js";
+import { checkAuthentication } from "../middleware/auth.middleware.js";
 
 const authRouter = express.Router();
 
-authRouter.post(
-  "/register",
-  registerValidation,
-  validationMiddleware,
-  register,
-);
+authRouter.post("/register", registerValidation, checkValidation, register);
 
-authRouter.post("/login", loginValidation, validationMiddleware, login);
+authRouter.post("/login", loginValidation, checkValidation, login);
 
-authRouter.get("/profile", authMiddleware, getProfile);  
+authRouter.get("/profile", checkAuthentication, getProfile);
+
 export { authRouter };

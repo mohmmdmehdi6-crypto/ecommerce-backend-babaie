@@ -1,27 +1,24 @@
-import jwt from "jsonwebtoken";
+import { customError } from "./error.middleware.js";
+import { checkJwtToken } from "../utils/jwtHelper.js";
 
-export const authMiddleware = (request, response, next) => {
-  const authHeader = request.headers.authorization;
+export const checkAuthentication = (request, response, next) => {
+  let token = request.headers.authorization;
 
-  if (!authHeader) {
-    return response.status(401).json({
-      success: false,
-      message: "No token provided",
-    });
+  token = token?.split(" ")[1];
+
+  if (!token) {
+    customError("Please send token or login first", 401);
   }
 
-  const token = authHeader.split(" ")[1];
+  const verifiedToken = checkJwtToken(token);
 
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    request.user = decoded;
-
-    next();
-  } catch (error) {
-    return response.status(401).json({
-      success: false,
-      message: "Invalid token",
-    });
+  if (!verifiedToken) {
+    customError("Your token is not valid", 401);
   }
+
+  request.user = verifiedToken;
+
+  console.log(verifiedToken);
+
+  next();
 };

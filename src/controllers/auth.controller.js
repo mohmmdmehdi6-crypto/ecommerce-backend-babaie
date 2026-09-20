@@ -89,9 +89,27 @@ export const login = async (request, response, next) => {
     next(error);
   }
 };
+export const getProfile = async (request, response, next) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: request.user.id,
+      },
+    });
 
-export const getProfile = (request, response) => {
-  response.json({
-    user: request.user,
-  });
+    if (!user) {
+      customError("User not found", 404);
+    }
+
+    response.status(200).json({
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
 };
