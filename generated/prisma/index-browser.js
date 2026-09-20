@@ -125,6 +125,12 @@ exports.Prisma.UserScalarFieldEnum = {
   role: 'role'
 };
 
+exports.Prisma.UserImageScalarFieldEnum = {
+  id: 'id',
+  image: 'image',
+  userId: 'userId'
+};
+
 exports.Prisma.CategoryScalarFieldEnum = {
   id: 'id',
   name: 'name'
@@ -153,6 +159,7 @@ exports.Prisma.NullsOrder = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  UserImage: 'UserImage',
   Category: 'Category',
   Product: 'Product'
 };

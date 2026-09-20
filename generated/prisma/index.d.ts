@@ -19,6 +19,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
+ * Model UserImage
+ * 
+ */
+export type UserImage = $Result.DefaultSelection<Prisma.$UserImagePayload>
+/**
  * Model Category
  * 
  */
@@ -159,6 +164,16 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userImage`: Exposes CRUD operations for the **UserImage** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserImages
+    * const userImages = await prisma.userImage.findMany()
+    * ```
+    */
+  get userImage(): Prisma.UserImageDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.category`: Exposes CRUD operations for the **Category** model.
@@ -627,6 +642,7 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
+    UserImage: 'UserImage',
     Category: 'Category',
     Product: 'Product'
   };
@@ -644,7 +660,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "category" | "product"
+      modelProps: "user" | "userImage" | "category" | "product"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -719,6 +735,80 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      UserImage: {
+        payload: Prisma.$UserImagePayload<ExtArgs>
+        fields: Prisma.UserImageFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserImageFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserImagePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserImageFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserImagePayload>
+          }
+          findFirst: {
+            args: Prisma.UserImageFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserImagePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserImageFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserImagePayload>
+          }
+          findMany: {
+            args: Prisma.UserImageFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserImagePayload>[]
+          }
+          create: {
+            args: Prisma.UserImageCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserImagePayload>
+          }
+          createMany: {
+            args: Prisma.UserImageCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserImageCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserImagePayload>[]
+          }
+          delete: {
+            args: Prisma.UserImageDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserImagePayload>
+          }
+          update: {
+            args: Prisma.UserImageUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserImagePayload>
+          }
+          deleteMany: {
+            args: Prisma.UserImageDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserImageUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserImageUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserImagePayload>[]
+          }
+          upsert: {
+            args: Prisma.UserImageUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserImagePayload>
+          }
+          aggregate: {
+            args: Prisma.UserImageAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserImage>
+          }
+          groupBy: {
+            args: Prisma.UserImageGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserImageGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserImageCountArgs<ExtArgs>
+            result: $Utils.Optional<UserImageCountAggregateOutputType> | number
           }
         }
       }
@@ -994,6 +1084,7 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     user?: UserOmit
+    userImage?: UserImageOmit
     category?: CategoryOmit
     product?: ProductOmit
   }
@@ -1069,6 +1160,37 @@ export namespace Prisma {
   /**
    * Count Types
    */
+
+
+  /**
+   * Count Type UserCountOutputType
+   */
+
+  export type UserCountOutputType = {
+    userImages: number
+  }
+
+  export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    userImages?: boolean | UserCountOutputTypeCountUserImagesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCountOutputType
+     */
+    select?: UserCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountUserImagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserImageWhereInput
+  }
 
 
   /**
@@ -1270,6 +1392,8 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     role?: boolean
+    userImages?: boolean | User$userImagesArgs<ExtArgs>
+    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1297,10 +1421,18 @@ export namespace Prisma {
   }
 
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "role", ExtArgs["result"]["user"]>
+  export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    userImages?: boolean | User$userImagesArgs<ExtArgs>
+    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
-    objects: {}
+    objects: {
+      userImages: Prisma.$UserImagePayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
@@ -1701,6 +1833,7 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    userImages<T extends User$userImagesArgs<ExtArgs> = {}>(args?: Subset<T, User$userImagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1752,6 +1885,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter, which User to fetch.
      */
     where: UserWhereUniqueInput
@@ -1770,6 +1907,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter, which User to fetch.
      */
     where: UserWhereUniqueInput
@@ -1787,6 +1928,10 @@ export namespace Prisma {
      * Omit specific fields from the User
      */
     omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
     /**
      * Filter, which User to fetch.
      */
@@ -1836,6 +1981,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter, which User to fetch.
      */
     where?: UserWhereInput
@@ -1883,6 +2032,10 @@ export namespace Prisma {
      * Omit specific fields from the User
      */
     omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
     /**
      * Filter, which Users to fetch.
      */
@@ -1932,6 +2085,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * The data needed to create a User.
      */
     data: XOR<UserCreateInput, UserUncheckedCreateInput>
@@ -1977,6 +2134,10 @@ export namespace Prisma {
      * Omit specific fields from the User
      */
     omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
     /**
      * The data needed to update a User.
      */
@@ -2044,6 +2205,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * The filter to search for the User to update in case it exists.
      */
     where: UserWhereUniqueInput
@@ -2070,6 +2235,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter which User to delete.
      */
     where: UserWhereUniqueInput
@@ -2090,6 +2259,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.userImages
+   */
+  export type User$userImagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserImage
+     */
+    select?: UserImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserImage
+     */
+    omit?: UserImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserImageInclude<ExtArgs> | null
+    where?: UserImageWhereInput
+    orderBy?: UserImageOrderByWithRelationInput | UserImageOrderByWithRelationInput[]
+    cursor?: UserImageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserImageScalarFieldEnum | UserImageScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2101,6 +2294,1045 @@ export namespace Prisma {
      * Omit specific fields from the User
      */
     omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UserImage
+   */
+
+  export type AggregateUserImage = {
+    _count: UserImageCountAggregateOutputType | null
+    _min: UserImageMinAggregateOutputType | null
+    _max: UserImageMaxAggregateOutputType | null
+  }
+
+  export type UserImageMinAggregateOutputType = {
+    id: string | null
+    image: string | null
+    userId: string | null
+  }
+
+  export type UserImageMaxAggregateOutputType = {
+    id: string | null
+    image: string | null
+    userId: string | null
+  }
+
+  export type UserImageCountAggregateOutputType = {
+    id: number
+    image: number
+    userId: number
+    _all: number
+  }
+
+
+  export type UserImageMinAggregateInputType = {
+    id?: true
+    image?: true
+    userId?: true
+  }
+
+  export type UserImageMaxAggregateInputType = {
+    id?: true
+    image?: true
+    userId?: true
+  }
+
+  export type UserImageCountAggregateInputType = {
+    id?: true
+    image?: true
+    userId?: true
+    _all?: true
+  }
+
+  export type UserImageAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserImage to aggregate.
+     */
+    where?: UserImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserImages to fetch.
+     */
+    orderBy?: UserImageOrderByWithRelationInput | UserImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserImages
+    **/
+    _count?: true | UserImageCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserImageMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserImageMaxAggregateInputType
+  }
+
+  export type GetUserImageAggregateType<T extends UserImageAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserImage]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserImage[P]>
+      : GetScalarType<T[P], AggregateUserImage[P]>
+  }
+
+
+
+
+  export type UserImageGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserImageWhereInput
+    orderBy?: UserImageOrderByWithAggregationInput | UserImageOrderByWithAggregationInput[]
+    by: UserImageScalarFieldEnum[] | UserImageScalarFieldEnum
+    having?: UserImageScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserImageCountAggregateInputType | true
+    _min?: UserImageMinAggregateInputType
+    _max?: UserImageMaxAggregateInputType
+  }
+
+  export type UserImageGroupByOutputType = {
+    id: string
+    image: string
+    userId: string
+    _count: UserImageCountAggregateOutputType | null
+    _min: UserImageMinAggregateOutputType | null
+    _max: UserImageMaxAggregateOutputType | null
+  }
+
+  type GetUserImageGroupByPayload<T extends UserImageGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserImageGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserImageGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserImageGroupByOutputType[P]>
+            : GetScalarType<T[P], UserImageGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserImageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    image?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userImage"]>
+
+  export type UserImageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    image?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userImage"]>
+
+  export type UserImageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    image?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userImage"]>
+
+  export type UserImageSelectScalar = {
+    id?: boolean
+    image?: boolean
+    userId?: boolean
+  }
+
+  export type UserImageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "image" | "userId", ExtArgs["result"]["userImage"]>
+  export type UserImageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserImageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserImageIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $UserImagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserImage"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      image: string
+      userId: string
+    }, ExtArgs["result"]["userImage"]>
+    composites: {}
+  }
+
+  type UserImageGetPayload<S extends boolean | null | undefined | UserImageDefaultArgs> = $Result.GetResult<Prisma.$UserImagePayload, S>
+
+  type UserImageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserImageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserImageCountAggregateInputType | true
+    }
+
+  export interface UserImageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserImage'], meta: { name: 'UserImage' } }
+    /**
+     * Find zero or one UserImage that matches the filter.
+     * @param {UserImageFindUniqueArgs} args - Arguments to find a UserImage
+     * @example
+     * // Get one UserImage
+     * const userImage = await prisma.userImage.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserImageFindUniqueArgs>(args: SelectSubset<T, UserImageFindUniqueArgs<ExtArgs>>): Prisma__UserImageClient<$Result.GetResult<Prisma.$UserImagePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserImage that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserImageFindUniqueOrThrowArgs} args - Arguments to find a UserImage
+     * @example
+     * // Get one UserImage
+     * const userImage = await prisma.userImage.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserImageFindUniqueOrThrowArgs>(args: SelectSubset<T, UserImageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserImageClient<$Result.GetResult<Prisma.$UserImagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserImage that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserImageFindFirstArgs} args - Arguments to find a UserImage
+     * @example
+     * // Get one UserImage
+     * const userImage = await prisma.userImage.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserImageFindFirstArgs>(args?: SelectSubset<T, UserImageFindFirstArgs<ExtArgs>>): Prisma__UserImageClient<$Result.GetResult<Prisma.$UserImagePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserImage that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserImageFindFirstOrThrowArgs} args - Arguments to find a UserImage
+     * @example
+     * // Get one UserImage
+     * const userImage = await prisma.userImage.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserImageFindFirstOrThrowArgs>(args?: SelectSubset<T, UserImageFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserImageClient<$Result.GetResult<Prisma.$UserImagePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserImages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserImageFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserImages
+     * const userImages = await prisma.userImage.findMany()
+     * 
+     * // Get first 10 UserImages
+     * const userImages = await prisma.userImage.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userImageWithIdOnly = await prisma.userImage.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserImageFindManyArgs>(args?: SelectSubset<T, UserImageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserImage.
+     * @param {UserImageCreateArgs} args - Arguments to create a UserImage.
+     * @example
+     * // Create one UserImage
+     * const UserImage = await prisma.userImage.create({
+     *   data: {
+     *     // ... data to create a UserImage
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserImageCreateArgs>(args: SelectSubset<T, UserImageCreateArgs<ExtArgs>>): Prisma__UserImageClient<$Result.GetResult<Prisma.$UserImagePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserImages.
+     * @param {UserImageCreateManyArgs} args - Arguments to create many UserImages.
+     * @example
+     * // Create many UserImages
+     * const userImage = await prisma.userImage.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserImageCreateManyArgs>(args?: SelectSubset<T, UserImageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserImages and returns the data saved in the database.
+     * @param {UserImageCreateManyAndReturnArgs} args - Arguments to create many UserImages.
+     * @example
+     * // Create many UserImages
+     * const userImage = await prisma.userImage.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserImages and only return the `id`
+     * const userImageWithIdOnly = await prisma.userImage.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserImageCreateManyAndReturnArgs>(args?: SelectSubset<T, UserImageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserImagePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserImage.
+     * @param {UserImageDeleteArgs} args - Arguments to delete one UserImage.
+     * @example
+     * // Delete one UserImage
+     * const UserImage = await prisma.userImage.delete({
+     *   where: {
+     *     // ... filter to delete one UserImage
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserImageDeleteArgs>(args: SelectSubset<T, UserImageDeleteArgs<ExtArgs>>): Prisma__UserImageClient<$Result.GetResult<Prisma.$UserImagePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserImage.
+     * @param {UserImageUpdateArgs} args - Arguments to update one UserImage.
+     * @example
+     * // Update one UserImage
+     * const userImage = await prisma.userImage.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserImageUpdateArgs>(args: SelectSubset<T, UserImageUpdateArgs<ExtArgs>>): Prisma__UserImageClient<$Result.GetResult<Prisma.$UserImagePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserImages.
+     * @param {UserImageDeleteManyArgs} args - Arguments to filter UserImages to delete.
+     * @example
+     * // Delete a few UserImages
+     * const { count } = await prisma.userImage.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserImageDeleteManyArgs>(args?: SelectSubset<T, UserImageDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserImages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserImageUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserImages
+     * const userImage = await prisma.userImage.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserImageUpdateManyArgs>(args: SelectSubset<T, UserImageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserImages and returns the data updated in the database.
+     * @param {UserImageUpdateManyAndReturnArgs} args - Arguments to update many UserImages.
+     * @example
+     * // Update many UserImages
+     * const userImage = await prisma.userImage.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserImages and only return the `id`
+     * const userImageWithIdOnly = await prisma.userImage.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserImageUpdateManyAndReturnArgs>(args: SelectSubset<T, UserImageUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserImagePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserImage.
+     * @param {UserImageUpsertArgs} args - Arguments to update or create a UserImage.
+     * @example
+     * // Update or create a UserImage
+     * const userImage = await prisma.userImage.upsert({
+     *   create: {
+     *     // ... data to create a UserImage
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserImage we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserImageUpsertArgs>(args: SelectSubset<T, UserImageUpsertArgs<ExtArgs>>): Prisma__UserImageClient<$Result.GetResult<Prisma.$UserImagePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserImages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserImageCountArgs} args - Arguments to filter UserImages to count.
+     * @example
+     * // Count the number of UserImages
+     * const count = await prisma.userImage.count({
+     *   where: {
+     *     // ... the filter for the UserImages we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserImageCountArgs>(
+      args?: Subset<T, UserImageCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserImageCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserImage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserImageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserImageAggregateArgs>(args: Subset<T, UserImageAggregateArgs>): Prisma.PrismaPromise<GetUserImageAggregateType<T>>
+
+    /**
+     * Group by UserImage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserImageGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserImageGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserImageGroupByArgs['orderBy'] }
+        : { orderBy?: UserImageGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserImageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserImageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserImage model
+   */
+  readonly fields: UserImageFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserImage.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserImageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserImage model
+   */
+  interface UserImageFieldRefs {
+    readonly id: FieldRef<"UserImage", 'String'>
+    readonly image: FieldRef<"UserImage", 'String'>
+    readonly userId: FieldRef<"UserImage", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserImage findUnique
+   */
+  export type UserImageFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserImage
+     */
+    select?: UserImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserImage
+     */
+    omit?: UserImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserImageInclude<ExtArgs> | null
+    /**
+     * Filter, which UserImage to fetch.
+     */
+    where: UserImageWhereUniqueInput
+  }
+
+  /**
+   * UserImage findUniqueOrThrow
+   */
+  export type UserImageFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserImage
+     */
+    select?: UserImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserImage
+     */
+    omit?: UserImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserImageInclude<ExtArgs> | null
+    /**
+     * Filter, which UserImage to fetch.
+     */
+    where: UserImageWhereUniqueInput
+  }
+
+  /**
+   * UserImage findFirst
+   */
+  export type UserImageFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserImage
+     */
+    select?: UserImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserImage
+     */
+    omit?: UserImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserImageInclude<ExtArgs> | null
+    /**
+     * Filter, which UserImage to fetch.
+     */
+    where?: UserImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserImages to fetch.
+     */
+    orderBy?: UserImageOrderByWithRelationInput | UserImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserImages.
+     */
+    cursor?: UserImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserImages.
+     */
+    distinct?: UserImageScalarFieldEnum | UserImageScalarFieldEnum[]
+  }
+
+  /**
+   * UserImage findFirstOrThrow
+   */
+  export type UserImageFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserImage
+     */
+    select?: UserImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserImage
+     */
+    omit?: UserImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserImageInclude<ExtArgs> | null
+    /**
+     * Filter, which UserImage to fetch.
+     */
+    where?: UserImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserImages to fetch.
+     */
+    orderBy?: UserImageOrderByWithRelationInput | UserImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserImages.
+     */
+    cursor?: UserImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserImages.
+     */
+    distinct?: UserImageScalarFieldEnum | UserImageScalarFieldEnum[]
+  }
+
+  /**
+   * UserImage findMany
+   */
+  export type UserImageFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserImage
+     */
+    select?: UserImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserImage
+     */
+    omit?: UserImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserImageInclude<ExtArgs> | null
+    /**
+     * Filter, which UserImages to fetch.
+     */
+    where?: UserImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserImages to fetch.
+     */
+    orderBy?: UserImageOrderByWithRelationInput | UserImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserImages.
+     */
+    cursor?: UserImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserImages.
+     */
+    distinct?: UserImageScalarFieldEnum | UserImageScalarFieldEnum[]
+  }
+
+  /**
+   * UserImage create
+   */
+  export type UserImageCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserImage
+     */
+    select?: UserImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserImage
+     */
+    omit?: UserImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserImageInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserImage.
+     */
+    data: XOR<UserImageCreateInput, UserImageUncheckedCreateInput>
+  }
+
+  /**
+   * UserImage createMany
+   */
+  export type UserImageCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserImages.
+     */
+    data: UserImageCreateManyInput | UserImageCreateManyInput[]
+  }
+
+  /**
+   * UserImage createManyAndReturn
+   */
+  export type UserImageCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserImage
+     */
+    select?: UserImageSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserImage
+     */
+    omit?: UserImageOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserImages.
+     */
+    data: UserImageCreateManyInput | UserImageCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserImageIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserImage update
+   */
+  export type UserImageUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserImage
+     */
+    select?: UserImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserImage
+     */
+    omit?: UserImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserImageInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserImage.
+     */
+    data: XOR<UserImageUpdateInput, UserImageUncheckedUpdateInput>
+    /**
+     * Choose, which UserImage to update.
+     */
+    where: UserImageWhereUniqueInput
+  }
+
+  /**
+   * UserImage updateMany
+   */
+  export type UserImageUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserImages.
+     */
+    data: XOR<UserImageUpdateManyMutationInput, UserImageUncheckedUpdateManyInput>
+    /**
+     * Filter which UserImages to update
+     */
+    where?: UserImageWhereInput
+    /**
+     * Limit how many UserImages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserImage updateManyAndReturn
+   */
+  export type UserImageUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserImage
+     */
+    select?: UserImageSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserImage
+     */
+    omit?: UserImageOmit<ExtArgs> | null
+    /**
+     * The data used to update UserImages.
+     */
+    data: XOR<UserImageUpdateManyMutationInput, UserImageUncheckedUpdateManyInput>
+    /**
+     * Filter which UserImages to update
+     */
+    where?: UserImageWhereInput
+    /**
+     * Limit how many UserImages to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserImageIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserImage upsert
+   */
+  export type UserImageUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserImage
+     */
+    select?: UserImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserImage
+     */
+    omit?: UserImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserImageInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserImage to update in case it exists.
+     */
+    where: UserImageWhereUniqueInput
+    /**
+     * In case the UserImage found by the `where` argument doesn't exist, create a new UserImage with this data.
+     */
+    create: XOR<UserImageCreateInput, UserImageUncheckedCreateInput>
+    /**
+     * In case the UserImage was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserImageUpdateInput, UserImageUncheckedUpdateInput>
+  }
+
+  /**
+   * UserImage delete
+   */
+  export type UserImageDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserImage
+     */
+    select?: UserImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserImage
+     */
+    omit?: UserImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserImageInclude<ExtArgs> | null
+    /**
+     * Filter which UserImage to delete.
+     */
+    where: UserImageWhereUniqueInput
+  }
+
+  /**
+   * UserImage deleteMany
+   */
+  export type UserImageDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserImages to delete
+     */
+    where?: UserImageWhereInput
+    /**
+     * Limit how many UserImages to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserImage without action
+   */
+  export type UserImageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserImage
+     */
+    select?: UserImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserImage
+     */
+    omit?: UserImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserImageInclude<ExtArgs> | null
   }
 
 
@@ -4285,6 +5517,15 @@ export namespace Prisma {
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+  export const UserImageScalarFieldEnum: {
+    id: 'id',
+    image: 'image',
+    userId: 'userId'
+  };
+
+  export type UserImageScalarFieldEnum = (typeof UserImageScalarFieldEnum)[keyof typeof UserImageScalarFieldEnum]
+
+
   export const CategoryScalarFieldEnum: {
     id: 'id',
     name: 'name'
@@ -4360,6 +5601,7 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
     role?: StringFilter<"User"> | string
+    userImages?: UserImageListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -4368,6 +5610,7 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
+    userImages?: UserImageOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -4379,6 +5622,7 @@ export namespace Prisma {
     name?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
     role?: StringFilter<"User"> | string
+    userImages?: UserImageListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -4401,6 +5645,51 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"User"> | string
     password?: StringWithAggregatesFilter<"User"> | string
     role?: StringWithAggregatesFilter<"User"> | string
+  }
+
+  export type UserImageWhereInput = {
+    AND?: UserImageWhereInput | UserImageWhereInput[]
+    OR?: UserImageWhereInput[]
+    NOT?: UserImageWhereInput | UserImageWhereInput[]
+    id?: StringFilter<"UserImage"> | string
+    image?: StringFilter<"UserImage"> | string
+    userId?: StringFilter<"UserImage"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type UserImageOrderByWithRelationInput = {
+    id?: SortOrder
+    image?: SortOrder
+    userId?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type UserImageWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: UserImageWhereInput | UserImageWhereInput[]
+    OR?: UserImageWhereInput[]
+    NOT?: UserImageWhereInput | UserImageWhereInput[]
+    image?: StringFilter<"UserImage"> | string
+    userId?: StringFilter<"UserImage"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type UserImageOrderByWithAggregationInput = {
+    id?: SortOrder
+    image?: SortOrder
+    userId?: SortOrder
+    _count?: UserImageCountOrderByAggregateInput
+    _max?: UserImageMaxOrderByAggregateInput
+    _min?: UserImageMinOrderByAggregateInput
+  }
+
+  export type UserImageScalarWhereWithAggregatesInput = {
+    AND?: UserImageScalarWhereWithAggregatesInput | UserImageScalarWhereWithAggregatesInput[]
+    OR?: UserImageScalarWhereWithAggregatesInput[]
+    NOT?: UserImageScalarWhereWithAggregatesInput | UserImageScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UserImage"> | string
+    image?: StringWithAggregatesFilter<"UserImage"> | string
+    userId?: StringWithAggregatesFilter<"UserImage"> | string
   }
 
   export type CategoryWhereInput = {
@@ -4516,6 +5805,7 @@ export namespace Prisma {
     email: string
     password: string
     role?: string
+    userImages?: UserImageCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -4524,6 +5814,7 @@ export namespace Prisma {
     email: string
     password: string
     role?: string
+    userImages?: UserImageUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -4532,6 +5823,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
+    userImages?: UserImageUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -4540,6 +5832,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
+    userImages?: UserImageUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -4564,6 +5857,47 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserImageCreateInput = {
+    id?: string
+    image: string
+    user: UserCreateNestedOneWithoutUserImagesInput
+  }
+
+  export type UserImageUncheckedCreateInput = {
+    id?: string
+    image: string
+    userId: string
+  }
+
+  export type UserImageUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    image?: StringFieldUpdateOperationsInput | string
+    user?: UserUpdateOneRequiredWithoutUserImagesNestedInput
+  }
+
+  export type UserImageUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    image?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserImageCreateManyInput = {
+    id?: string
+    image: string
+    userId: string
+  }
+
+  export type UserImageUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    image?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserImageUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    image?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type CategoryCreateInput = {
@@ -4688,6 +6022,16 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type UserImageListRelationFilter = {
+    every?: UserImageWhereInput
+    some?: UserImageWhereInput
+    none?: UserImageWhereInput
+  }
+
+  export type UserImageOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -4727,6 +6071,29 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type UserScalarRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
+  export type UserImageCountOrderByAggregateInput = {
+    id?: SortOrder
+    image?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type UserImageMaxOrderByAggregateInput = {
+    id?: SortOrder
+    image?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type UserImageMinOrderByAggregateInput = {
+    id?: SortOrder
+    image?: SortOrder
+    userId?: SortOrder
   }
 
   export type ProductListRelationFilter = {
@@ -4862,8 +6229,64 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
+  export type UserImageCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserImageCreateWithoutUserInput, UserImageUncheckedCreateWithoutUserInput> | UserImageCreateWithoutUserInput[] | UserImageUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserImageCreateOrConnectWithoutUserInput | UserImageCreateOrConnectWithoutUserInput[]
+    createMany?: UserImageCreateManyUserInputEnvelope
+    connect?: UserImageWhereUniqueInput | UserImageWhereUniqueInput[]
+  }
+
+  export type UserImageUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserImageCreateWithoutUserInput, UserImageUncheckedCreateWithoutUserInput> | UserImageCreateWithoutUserInput[] | UserImageUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserImageCreateOrConnectWithoutUserInput | UserImageCreateOrConnectWithoutUserInput[]
+    createMany?: UserImageCreateManyUserInputEnvelope
+    connect?: UserImageWhereUniqueInput | UserImageWhereUniqueInput[]
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
+  }
+
+  export type UserImageUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserImageCreateWithoutUserInput, UserImageUncheckedCreateWithoutUserInput> | UserImageCreateWithoutUserInput[] | UserImageUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserImageCreateOrConnectWithoutUserInput | UserImageCreateOrConnectWithoutUserInput[]
+    upsert?: UserImageUpsertWithWhereUniqueWithoutUserInput | UserImageUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserImageCreateManyUserInputEnvelope
+    set?: UserImageWhereUniqueInput | UserImageWhereUniqueInput[]
+    disconnect?: UserImageWhereUniqueInput | UserImageWhereUniqueInput[]
+    delete?: UserImageWhereUniqueInput | UserImageWhereUniqueInput[]
+    connect?: UserImageWhereUniqueInput | UserImageWhereUniqueInput[]
+    update?: UserImageUpdateWithWhereUniqueWithoutUserInput | UserImageUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserImageUpdateManyWithWhereWithoutUserInput | UserImageUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserImageScalarWhereInput | UserImageScalarWhereInput[]
+  }
+
+  export type UserImageUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserImageCreateWithoutUserInput, UserImageUncheckedCreateWithoutUserInput> | UserImageCreateWithoutUserInput[] | UserImageUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserImageCreateOrConnectWithoutUserInput | UserImageCreateOrConnectWithoutUserInput[]
+    upsert?: UserImageUpsertWithWhereUniqueWithoutUserInput | UserImageUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserImageCreateManyUserInputEnvelope
+    set?: UserImageWhereUniqueInput | UserImageWhereUniqueInput[]
+    disconnect?: UserImageWhereUniqueInput | UserImageWhereUniqueInput[]
+    delete?: UserImageWhereUniqueInput | UserImageWhereUniqueInput[]
+    connect?: UserImageWhereUniqueInput | UserImageWhereUniqueInput[]
+    update?: UserImageUpdateWithWhereUniqueWithoutUserInput | UserImageUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserImageUpdateManyWithWhereWithoutUserInput | UserImageUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserImageScalarWhereInput | UserImageScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutUserImagesInput = {
+    create?: XOR<UserCreateWithoutUserImagesInput, UserUncheckedCreateWithoutUserImagesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUserImagesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutUserImagesNestedInput = {
+    create?: XOR<UserCreateWithoutUserImagesInput, UserUncheckedCreateWithoutUserImagesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUserImagesInput
+    upsert?: UserUpsertWithoutUserImagesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutUserImagesInput, UserUpdateWithoutUserImagesInput>, UserUncheckedUpdateWithoutUserImagesInput>
   }
 
   export type ProductCreateNestedManyWithoutCategoryInput = {
@@ -5045,6 +6468,98 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type UserImageCreateWithoutUserInput = {
+    id?: string
+    image: string
+  }
+
+  export type UserImageUncheckedCreateWithoutUserInput = {
+    id?: string
+    image: string
+  }
+
+  export type UserImageCreateOrConnectWithoutUserInput = {
+    where: UserImageWhereUniqueInput
+    create: XOR<UserImageCreateWithoutUserInput, UserImageUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserImageCreateManyUserInputEnvelope = {
+    data: UserImageCreateManyUserInput | UserImageCreateManyUserInput[]
+  }
+
+  export type UserImageUpsertWithWhereUniqueWithoutUserInput = {
+    where: UserImageWhereUniqueInput
+    update: XOR<UserImageUpdateWithoutUserInput, UserImageUncheckedUpdateWithoutUserInput>
+    create: XOR<UserImageCreateWithoutUserInput, UserImageUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserImageUpdateWithWhereUniqueWithoutUserInput = {
+    where: UserImageWhereUniqueInput
+    data: XOR<UserImageUpdateWithoutUserInput, UserImageUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserImageUpdateManyWithWhereWithoutUserInput = {
+    where: UserImageScalarWhereInput
+    data: XOR<UserImageUpdateManyMutationInput, UserImageUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type UserImageScalarWhereInput = {
+    AND?: UserImageScalarWhereInput | UserImageScalarWhereInput[]
+    OR?: UserImageScalarWhereInput[]
+    NOT?: UserImageScalarWhereInput | UserImageScalarWhereInput[]
+    id?: StringFilter<"UserImage"> | string
+    image?: StringFilter<"UserImage"> | string
+    userId?: StringFilter<"UserImage"> | string
+  }
+
+  export type UserCreateWithoutUserImagesInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: string
+  }
+
+  export type UserUncheckedCreateWithoutUserImagesInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: string
+  }
+
+  export type UserCreateOrConnectWithoutUserImagesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutUserImagesInput, UserUncheckedCreateWithoutUserImagesInput>
+  }
+
+  export type UserUpsertWithoutUserImagesInput = {
+    update: XOR<UserUpdateWithoutUserImagesInput, UserUncheckedUpdateWithoutUserImagesInput>
+    create: XOR<UserCreateWithoutUserImagesInput, UserUncheckedCreateWithoutUserImagesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutUserImagesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutUserImagesInput, UserUncheckedUpdateWithoutUserImagesInput>
+  }
+
+  export type UserUpdateWithoutUserImagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserUncheckedUpdateWithoutUserImagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+  }
+
   export type ProductCreateWithoutCategoryInput = {
     id?: string
     name: string
@@ -5135,6 +6650,26 @@ export namespace Prisma {
   export type CategoryUncheckedUpdateWithoutProductsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserImageCreateManyUserInput = {
+    id?: string
+    image: string
+  }
+
+  export type UserImageUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    image?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserImageUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    image?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserImageUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    image?: StringFieldUpdateOperationsInput | string
   }
 
   export type ProductCreateManyCategoryInput = {

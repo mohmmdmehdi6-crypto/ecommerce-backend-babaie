@@ -13,11 +13,19 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(uuid())
-  name     String
-  email    String @unique
-  password String
-  role     String @default("USER")
+  id         String      @id @default(uuid())
+  name       String
+  email      String      @unique
+  password   String
+  role       String      @default("USER")
+  userImages UserImage[]
+}
+
+model UserImage {
+  id     String @id @default(uuid())
+  image  String
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 }
 
 model Category {
