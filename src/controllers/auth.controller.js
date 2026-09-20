@@ -92,8 +92,9 @@ export const login = async (request, response, next) => {
 export const getProfile = async (request, response, next) => {
   try {
     const user = await prisma.user.findUnique({
-      where: {
-        id: request.user.id,
+      where: { id: request.user.id },
+      include: {
+        userImages: true,
       },
     });
 
@@ -107,6 +108,7 @@ export const getProfile = async (request, response, next) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        userImages: user.userImages,
       },
     });
   } catch (error) {

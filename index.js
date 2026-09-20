@@ -5,6 +5,7 @@ import { authRouter } from "./src/routes/auth.route.js";
 import { categoryRouter } from "./src/routes/category.route.js";
 import { productRouter } from "./src/routes/product.route.js";
 import { userRouter } from "./src/routes/user.route.js";
+import { favoriteRouter } from "./src/routes/favorite.route.js";
 dotenv.config();
 
 const app = express();
@@ -19,7 +20,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/categories", categoryRouter);
 app.use("/api/products", productRouter);
 app.use("/api/users", userRouter);
-
+app.use("/api/favorites", favoriteRouter);
 app.use(errorHandler);
 
 app.listen(PORT, () => {

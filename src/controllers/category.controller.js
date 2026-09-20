@@ -37,14 +37,14 @@ export const getCategoryById = async (request, response, next) => {
     next(error);
   }
 };
-
 export const createCategory = async (request, response, next) => {
-  const { name } = request.body;
-
   try {
+    const { name, description } = request.body;
+
     const category = await prisma.category.create({
       data: {
         name,
+        description,
       },
     });
 

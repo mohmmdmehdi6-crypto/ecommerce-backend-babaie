@@ -133,7 +133,8 @@ exports.Prisma.UserImageScalarFieldEnum = {
 
 exports.Prisma.CategoryScalarFieldEnum = {
   id: 'id',
-  name: 'name'
+  name: 'name',
+  description: 'description'
 };
 
 exports.Prisma.ProductScalarFieldEnum = {
@@ -144,6 +145,12 @@ exports.Prisma.ProductScalarFieldEnum = {
   stock: 'stock',
   image: 'image',
   categoryId: 'categoryId'
+};
+
+exports.Prisma.FavoritesScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  productId: 'productId'
 };
 
 exports.Prisma.SortOrder = {
@@ -161,7 +168,8 @@ exports.Prisma.ModelName = {
   User: 'User',
   UserImage: 'UserImage',
   Category: 'Category',
-  Product: 'Product'
+  Product: 'Product',
+  Favorites: 'Favorites'
 };
 
 /**
