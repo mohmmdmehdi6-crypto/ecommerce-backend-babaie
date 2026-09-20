@@ -1,9 +1,15 @@
 import express from "express";
-import { uploadUserImage } from "../controllers/user.controller.js";
+import {
+  getUserImage,
+  uploadUserImage,
+  deleteUserImage,
+} from "../controllers/user.controller.js";
 import { checkAuthentication } from "../middleware/auth.middleware.js";
 import { uploadUser } from "../utils/multer.utils.js";
 
 const userRouter = express.Router();
+
+userRouter.get("/images", checkAuthentication, getUserImage);
 
 userRouter.post(
   "/images",
@@ -12,4 +18,5 @@ userRouter.post(
   uploadUserImage,
 );
 
+userRouter.delete("/images/:id", checkAuthentication, deleteUserImage);
 export { userRouter };
